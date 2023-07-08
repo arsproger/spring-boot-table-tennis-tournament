@@ -25,4 +25,7 @@ public class Match {
     private Integer nextMatchPlayerNumber;
     @Enumerated(EnumType.STRING)
     private MatchType matchType;
+    @ManyToOne
+    @JoinColumn(name = "tournament_id", referencedColumnName = "id")
+    private Tournament tournament;
 }

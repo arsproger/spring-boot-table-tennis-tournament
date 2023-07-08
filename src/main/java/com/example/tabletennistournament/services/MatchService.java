@@ -3,13 +3,13 @@ package com.example.tabletennistournament.services;
 import com.example.tabletennistournament.enums.MatchType;
 import com.example.tabletennistournament.exceptions.AppException;
 import com.example.tabletennistournament.models.Match;
+import com.example.tabletennistournament.models.Tournament;
 import com.example.tabletennistournament.repositories.MatchRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -17,8 +17,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MatchService {
     private final MatchRepository matchRepository;
+    private final TournamentService tournamentService;
 
-    public List<List<Match>> buildTournamentGrid(List<String> participants) {
+    public void buildTournamentGrid(Long tournamentId) {
+        Tournament tournament = tournamentService.getById(tournamentId);
+        List<String> participants = tournament.getUsers();
+
         if (participants.size() < 3 || participants.size() > 16) {
             throw new RuntimeException("Error!");
         }
@@ -38,6 +42,7 @@ public class MatchService {
                     .player1(participants.get(i * 2))
                     .player2(participants.get(i * 2 + 1))
                     .matchType(MatchType.FIRST_ROUND)
+                    .tournament(tournament)
                     .build();
             firstRoundMatches.add(match);
             saveMatch(match);
@@ -49,6 +54,7 @@ public class MatchService {
                     .player2("None")
                     .winner(participants.get(participants.size() - 1))
                     .matchType(MatchType.FIRST_ROUND)
+                    .tournament(tournament)
                     .build();
             firstRoundMatches.add(match);
             saveMatch(match);
@@ -63,6 +69,7 @@ public class MatchService {
                     .player1(null)
                     .player2(null)
                     .matchType(MatchType.SECOND_ROUND)
+                    .tournament(tournament)
                     .build();
             secondRoundMatches.add(newMatch);
             Long savedMatchId = saveMatch(newMatch);
@@ -91,6 +98,7 @@ public class MatchService {
                     .player1(null)
                     .player2(null)
                     .matchType(MatchType.THIRD_ROUND)
+                    .tournament(tournament)
                     .build();
             thirdRoundMatches.add(newMatch);
             Long savedMatchId = saveMatch(newMatch);
@@ -119,6 +127,7 @@ public class MatchService {
                     .player1(null)
                     .player2(null)
                     .matchType(MatchType.FOURTH_ROUND)
+                    .tournament(tournament)
                     .build();
             fourthRoundMatches.add(newMatch);
             Long savedMatchId = saveMatch(newMatch);
@@ -136,7 +145,6 @@ public class MatchService {
 
         saveMatches(fourthRoundMatches);
 
-        return Arrays.asList(firstRoundMatches, secondRoundMatches, thirdRoundMatches, fourthRoundMatches, fifthRoundMatches);
     }
 
     public void saveMatches(List<Match> matches) {
@@ -178,11 +186,8 @@ public class MatchService {
 //        return matchId;
     }
 
-//    public void updateScores(Long matchId, Integer player1Score, Integer player2Score) {
-//        Match match = getById(matchId);
-//        match.setPlayer1Score(player1Score);
-//        match.setPlayer2Score(player2Score);
-//        matchRepository.save(match);
-//    }
+    public List<Match> getMatchesByTournamentId(Long tournamentId) {
+        return matchRepository.findByTournamentId(tournamentId);
+    }
 
 }

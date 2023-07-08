@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "tournaments")
@@ -17,4 +18,9 @@ public class Tournament {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDateTime dateTime;
+    private String name;
+//    @OneToMany(mappedBy = "tournament")
+    private List<String> users;
+    @OneToMany(mappedBy = "tournament")
+    private List<Match> matches;
 }

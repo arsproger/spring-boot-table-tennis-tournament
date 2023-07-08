@@ -2,7 +2,9 @@ package com.example.tabletennistournament.controllers;
 
 import com.example.tabletennistournament.enums.MatchType;
 import com.example.tabletennistournament.models.Match;
+import com.example.tabletennistournament.models.Tournament;
 import com.example.tabletennistournament.services.MatchService;
+import com.example.tabletennistournament.services.TournamentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,13 +20,14 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class MatchController {
     private final MatchService matchService;
+    private final TournamentService tournamentService;
 
-    @ResponseBody
-    @PostMapping("/generate")
-    public List<List<Match>> generateTournamentGrid() {
-        List<String> participants = generateParticipants();
-        return matchService.buildTournamentGrid(participants);
-    }
+//    @ResponseBody
+//    @PostMapping("/generate")
+//    public List<List<Match>> generateTournamentGrid() {
+//        List<String> participants = generateParticipants();
+//        return matchService.buildTournamentGrid(participants);
+//    }
 
     @ResponseBody
     @GetMapping("/all")
@@ -32,10 +35,13 @@ public class MatchController {
         return matchService.getAllMatches();
     }
 
-    @GetMapping("/tournament")
-    public String showTournamentGrid(Model model) {
-        List<Match> matches = matchService.getAllMatches()
+    @GetMapping("/tournament/{id}")
+    public String showTournamentGrid(@PathVariable("id") Long tournamentId, Model model) {
+        List<Match> matches = matchService.getMatchesByTournamentId(tournamentId)
                 .stream().sorted(Comparator.comparing(Match::getId)).toList();
+
+        Tournament tournament = tournamentService.getById(tournamentId);
+
         model.addAttribute("firstRound", matches
                 .stream().filter(x -> x.getMatchType().equals(MatchType.FIRST_ROUND))
                 .collect(Collectors.toList()));
@@ -49,7 +55,11 @@ public class MatchController {
                 .stream().filter(x -> x.getMatchType().equals(MatchType.FOURTH_ROUND))
                 .collect(Collectors.toList()));
 
-        return "test2";
+        model.addAttribute("amountMatches", matches.size());
+        model.addAttribute("amountUsers", tournament.getUsers().size());
+        model.addAttribute("tournamentName", tournament.getName());
+
+        return "tournament";
     }
 
     @PatchMapping
@@ -59,13 +69,6 @@ public class MatchController {
                        @RequestParam Integer player2Score) {
         matchService.updateMatchAndScores(Long.parseLong(matchId), winner, player1Score, player2Score);
     }
-
-//    @PatchMapping("/scores")
-//    public void updateScores(@RequestParam String matchId,
-//                             @RequestParam Integer player1Score,
-//                             @RequestParam Integer player2Score) {
-//        matchService.updateScores(Long.parseLong(matchId), player1Score, player2Score);
-//    }
 
     private List<String> generateParticipants() {
         List<String> participants = new ArrayList<>();

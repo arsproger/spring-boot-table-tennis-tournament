@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Создание турнира</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+    }
+
+    .card {
+      width: 400px;
+      margin: 20px auto;
+      background-color: #ffffff;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333333;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #cccccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+      margin-bottom: 10px;
+    }
+
+    .player-list {
+      margin-bottom: 20px;
+    }
+
+    .player-list table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .player-list th, .player-list td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #cccccc;
+    }
+
+    .player-list .remove-player {
+      color: #ff0000;
+      cursor: pointer;
+    }
+
+    .add-player {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .add-player button {
+      background-color: #4CAF50;
+      color: #ffffff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+
+    .add-player button:hover {
+      background-color: #45a049;
+    }
+
+    .create-tournament {
+      text-align: center;
+    }
+
+    .create-tournament button {
+      background-color: #008CBA;
+      color: #ffffff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+
+    .create-tournament button:hover {
+      background-color: #007B9F;
+    }
+  </style>
+  <script>
+    function addPlayer() {
+      var playerTable = document.getElementById('player-table');
+      var playerNameInput = document.createElement('input');
+      playerNameInput.type = 'text';
+      playerNameInput.name = 'users[]'; // Use an array for input names
+
+      var playerRow = document.createElement('tr');
+      var playerCell = document.createElement('td');
+      var removeButton = document.createElement('span');
+      removeButton.className = 'remove-player';
+      removeButton.innerHTML = 'Удалить';
+      removeButton.onclick = function () {
+        removePlayer(this);
+      };
+
+      playerCell.appendChild(playerNameInput);
+      playerCell.appendChild(removeButton);
+      playerRow.appendChild(playerCell);
+
+      // Добавляем новую строку после последней строки таблицы
+      if (playerTable.rows.length > 0) {
+        playerTable.rows[playerTable.rows.length - 1].insertAdjacentElement('afterend', playerRow);
+      } else {
+        playerTable.appendChild(playerRow);
+      }
+    }
+
+    function removePlayer(button) {
+      var playerTable = document.getElementById('player-table');
+      var row = button.parentNode.parentNode;
+      playerTable.removeChild(row);
+    }
+
+  </script>
+</head>
+<body>
+<div class="card">
+  <h1>Создание турнира</h1>
+  <form th:action="@{/tournament}" th:object="${tournament}" method="post">
+    <label for="tournament-name">Имя турнира:</label>
+    <input type="text" id="tournament-name" th:field="*{name}" placeholder="Введите имя турнира" required>
+
+    <div class="player-list">
+      <label>Имена игроков:</label>
+      <table id="player-table">
+        <tr th:each="player, playerStat : *{users}">
+          <td>
+            <label>
+              <input type="text" th:field="*{users[__${playerStat.index}__]}" name="users[]" placeholder="Введите имя игрока" required>
+            </label>
+            <span class="remove-player" onclick="removePlayer(this)">Удалить</span>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="add-player">
+      <button type="button" onclick="addPlayer()">Добавить игрока</button>
+    </div>
+
+    <div class="create-tournament">
+      <button type="submit">Создать турнир</button>
+    </div>
+  </form>
+</div>
+</body>
+</html>

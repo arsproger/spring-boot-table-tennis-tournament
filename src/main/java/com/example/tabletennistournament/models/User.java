@@ -18,4 +18,7 @@ public class User {
     private String password;
     @Column(name = "full_name")
     private String fullName;
+//    @ManyToOne
+//    @JoinColumn(name = "tournament_id", referencedColumnName = "id")
+//    private Tournament tournament;
 }

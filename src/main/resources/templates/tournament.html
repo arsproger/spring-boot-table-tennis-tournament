@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="/static/test.css">
+    <link rel="stylesheet" href="/tournament.css">
 </head>
 <body>
 <div class="container">
-    <h1>Responsive Tournament Bracket</h1>
-    <h2>Ice hockey at the 1998 Winter Olympics – Men's tournament</h2>
+    <h1>Турнир по настольному теннису</h1>
+    <h2 th:text="'Название турнира: ' + ${tournamentName}"></h2>
+    <h2 th:text="'Количество игроков: ' + ${amountUsers}"></h2>
+    <h2 th:text="'Количество партий: ' + ${amountMatches}"></h2>
     <div class="tournament-bracket tournament-bracket--rounded">
         <div class="tournament-bracket__round tournament-bracket__round--quarterfinals">
             <h3 class="tournament-bracket__round-title">Quarterfinals</h3>
