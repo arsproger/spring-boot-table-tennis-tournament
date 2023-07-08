@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" href="/static/test.css">
+  <style>
+    .hidden {
+      display: none;
+    }
+
+    .scorecard-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      background-color: #f1f1f1;
+      border: 1px solid #ccc;
+      margin-bottom: 10px;
+    }
+
+    .score-input {
+      width: 50px;
+      height: 30px;
+      font-size: 16px;
+      text-align: center;
+    }
+
+    .save-button {
+      padding: 5px 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Responsive Tournament Bracket</h1>
+  <h2>Ice hockey at the 1998 Winter Olympics – Men's tournament</h2>
+  <div class="tournament-bracket tournament-bracket--rounded">
+    <div class="tournament-bracket__round tournament-bracket__round--quarterfinals">
+      <h3 class="tournament-bracket__round-title">Quarterfinals</h3>
+      <ul class="tournament-bracket__list">
+        <li class="tournament-bracket__item">
+          <div class="tournament-bracket__match" tabindex="0" onclick="openScorecard(this)">
+            <table class="tournament-bracket__table">
+              <caption class="tournament-bracket__caption">
+                <!-- Remove date and score -->
+              </caption>
+              <thead class="sr-only">
+              <tr>
+                <th>Country</th>
+                <th>Score</th>
+              </tr>
+              </thead>
+              <tbody class="tournament-bracket__content">
+              <tr class="tournament-bracket__team">
+                <td class="tournament-bracket__country">
+                  <abbr class="tournament-bracket__code">Player 1</abbr>
+                  <span class="tournament-bracket__flag flag-icon flag-icon-ca" aria-label="Flag"></span>
+                </td>
+                <td class="tournament-bracket__score">
+                  <span class="tournament-bracket__number">4</span>
+                </td>
+              </tr>
+              <tr class="tournament-bracket__team">
+                <td class="tournament-bracket__country">
+                  <abbr class="tournament-bracket__code">Player 2</abbr>
+                  <span class="tournament-bracket__flag flag-icon flag-icon-kz" aria-label="Flag"></span>
+                </td>
+                <td class="tournament-bracket__score">
+                  <span class="tournament-bracket__number">8</span>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div id="scorecard" class="hidden">
+  <h3>Set Score</h3>
+  <div class="scorecard-container">
+    <div>
+      <label for="player1Score">Player 1 Score:</label>
+      <br>
+      <input type="number" id="player1Score" name="player1Score" class="score-input">
+    </div>
+    <div>
+      <label for="player2Score">Player 2 Score:</label>
+      <br>
+      <input type="number" id="player2Score" name="player2Score" class="score-input">
+    </div>
+  </div>
+  <br>
+  <button onclick="updateScores()" class="save-button">Save</button>
+</div>
+
+<script>
+  function openScorecard(match) {
+    var scorecard = document.getElementById("scorecard");
+    scorecard.classList.remove("hidden");
+    var player1Score = match.querySelector(".tournament-bracket__team:first-child .tournament-bracket__score .tournament-bracket__number").textContent;
+    var player2Score = match.querySelector(".tournament-bracket__team:last-child .tournament-bracket__score .tournament-bracket__number").textContent;
+    document.getElementById("player1Score").value = player1Score;
+    document.getElementById("player2Score").value = player2Score;
+  }
+
+  function updateScores() {
+    var scorecard = document.getElementById("scorecard");
+    var player1Score = document.getElementById("player1Score").value;
+    var player2Score = document.getElementById("player2Score").value;
+    var match = scorecard.parentNode;
+    match.querySelector(".tournament-bracket__team:first-child .tournament-bracket__score .tournament-bracket__number").textContent = player1Score;
+    match.querySelector(".tournament-bracket__team:last-child .tournament-bracket__score .tournament-bracket__number").textContent = player2Score;
+    scorecard.classList.add("hidden");
+  }
+</script>
+
+</body>
+</html>
