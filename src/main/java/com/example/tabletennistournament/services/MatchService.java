@@ -22,43 +22,44 @@ public class MatchService {
     public void buildTournamentGrid(Long tournamentId) {
         Tournament tournament = tournamentService.getById(tournamentId);
         List<String> participants = tournament.getUsers();
-
-        if (participants.size() < 3 || participants.size() > 16) {
-            throw new RuntimeException("Error!");
-        }
-
         Collections.shuffle(participants);
         List<Match> firstRoundMatches = new ArrayList<>();
         List<Match> secondRoundMatches = new ArrayList<>();
         List<Match> thirdRoundMatches = new ArrayList<>();
         List<Match> fourthRoundMatches = new ArrayList<>();
-        List<Match> fifthRoundMatches = new ArrayList<>();
+        double participantsSize = participants.size();
+        while (true) {
+            if (participantsSize / 4.0 > 0.0) {
+                participantsSize -= 4;
+                Match match1 = Match.builder().matchType(MatchType.FIRST_ROUND).tournament(tournament).build();
+                Match match2 = Match.builder().matchType(MatchType.FIRST_ROUND).tournament(tournament).build();
+                firstRoundMatches.addAll(List.of(match1, match2));
+                saveMatch(match1);
+                saveMatch(match2);
+            } else {
+                break;
+            }
+        }
+        int amountFirstRound = firstRoundMatches.size();
+        int participantsSizeInt = participants.size();
+        for (Match firstRound : firstRoundMatches) {
+            if (participantsSizeInt > amountFirstRound) {
+                firstRound.setPlayer1(participants.get(participantsSizeInt - 1));
+                participantsSizeInt--;
+                firstRound.setPlayer2(participants.get(participantsSizeInt - 1));
+                participantsSizeInt--;
+                amountFirstRound--;
+            } else if (participantsSizeInt == amountFirstRound) {
+                firstRound.setPlayer1(participants.get(participantsSizeInt - 1));
+                participantsSizeInt--;
+                amountFirstRound--;
+            } else {
+                break;
+            }
+        }
 
         int amountOfSecondRound = participants.size() <= 4
                 ? 1 : (participants.size() + 7) / 8 * 2;
-
-        for (int i = 0; i < participants.size() / 2; i++) {
-            Match match = Match.builder()
-                    .player1(participants.get(i * 2))
-                    .player2(participants.get(i * 2 + 1))
-                    .matchType(MatchType.FIRST_ROUND)
-                    .tournament(tournament)
-                    .build();
-            firstRoundMatches.add(match);
-            saveMatch(match);
-        }
-
-        if (participants.size() % 2 != 0) {
-            Match match = Match.builder()
-                    .player1(participants.get(participants.size() - 1))
-                    .player2("None")
-                    .winner(participants.get(participants.size() - 1))
-                    .matchType(MatchType.FIRST_ROUND)
-                    .tournament(tournament)
-                    .build();
-            firstRoundMatches.add(match);
-            saveMatch(match);
-        }
 
         saveMatches(firstRoundMatches);
 
@@ -76,9 +77,21 @@ public class MatchService {
 
             int count = 0;
             while (count < 2) {
-                if (firstRoundMatches.get(i).getNextMatchId() == null) {
-                    firstRoundMatches.get(i).setNextMatchId(savedMatchId);
-                    firstRoundMatches.get(i).setNextMatchPlayerNumber(count);
+                if (firstRoundMatches.size() <= i) {
+                    break;
+                }
+                Match match = firstRoundMatches.get(i);
+                if (match.getNextMatchId() == null) {
+                    if (match.getPlayer2() == null) {
+                        if (count == 0) {
+                            newMatch.setPlayer1(match.getPlayer1());
+                        } else if (count == 1) {
+                            newMatch.setPlayer2(match.getPlayer1());
+                        }
+                        saveMatch(newMatch);
+                    }
+                    match.setNextMatchId(savedMatchId);
+                    match.setNextMatchPlayerNumber(count);
                     count++;
                 }
                 i++;
