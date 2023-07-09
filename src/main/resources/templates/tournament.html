@@ -13,10 +13,11 @@
     <h2 th:text="'Количество партий: ' + ${amountMatches}"></h2>
     <div class="tournament-bracket tournament-bracket--rounded">
         <div class="tournament-bracket__round tournament-bracket__round--quarterfinals">
-            <h3 class="tournament-bracket__round-title">Quarterfinals</h3>
+            <h3 class="tournament-bracket__round-title">Первый раунд</h3>
             <ul class="tournament-bracket__list">
                 <li class="tournament-bracket__item" th:each="match : ${firstRound}">
-                    <div class="tournament-bracket__match" tabindex="0" th:attr="data-match-id=${match.id}">
+                    <div class="tournament-bracket__match" tabindex="0"
+                         th:attr="data-match-id=${match.id}, data-player1=${match.player1}, data-player2=${match.player2}">
                         <table class="tournament-bracket__table">
                             <caption class="tournament-bracket__caption">
                                 <!-- Remove date and score -->
@@ -31,7 +32,7 @@
                             <tr class="tournament-bracket__team">
                                 <td class="tournament-bracket__country">
                                     <span class="tournament-bracket__cup" th:if="${match.player2 == null}">&#x1F3C6;</span>
-                                    <abbr class="tournament-bracket__code" th:text="${match.player1}"></abbr>
+                                    <abbr class="tournament-bracket__code" th:text="${match.player1}" th:classappend="${match.player1Score > match.player2Score} ? 'player-win' : 'player-loss'"></abbr>
                                     <span class="tournament-bracket__flag flag-icon flag-icon-ca"
                                           aria-label="Flag"></span>
                                 </td>
@@ -45,7 +46,7 @@
                             </tr>
                             <tr class="tournament-bracket__team">
                                 <td class="tournament-bracket__country">
-                                    <abbr class="tournament-bracket__code" th:text="${match.player2}"></abbr>
+                                    <abbr class="tournament-bracket__code" th:text="${match.player2}" th:classappend="${match.player2Score > match.player1Score} ? 'player-win' : 'player-loss'"></abbr>
                                     <abbr class="tournament-bracket__code" th:if="${match.player2 == null}">no pair</abbr>
                                     <span class="tournament-bracket__flag flag-icon flag-icon-kz"
                                           aria-label="Flag"></span>
@@ -65,7 +66,7 @@
             </ul>
         </div>
         <div class="tournament-bracket__round tournament-bracket__round--semifinals">
-            <h3 class="tournament-bracket__round-title">Semifinals</h3>
+            <h3 class="tournament-bracket__round-title">Второй раунд</h3>
             <ul class="tournament-bracket__list">
                 <li class="tournament-bracket__item" th:each="match : ${secondRound}">
                     <div class="tournament-bracket__match" tabindex="0" th:attr="data-match-id=${match.id}">
@@ -82,7 +83,7 @@
                             <tbody class="tournament-bracket__content">
                             <tr class="tournament-bracket__team">
                                 <td class="tournament-bracket__country">
-                                    <abbr class="tournament-bracket__code" th:text="${match.player1}"></abbr>
+                                    <abbr class="tournament-bracket__code" th:text="${match.player1}" th:classappend="${match.player1Score > match.player2Score} ? 'player-win' : 'player-loss'"></abbr>
                                     <span class="tournament-bracket__flag flag-icon flag-icon-ca"
                                           aria-label="Flag"></span>
                                 </td>
@@ -96,7 +97,7 @@
                             </tr>
                             <tr class="tournament-bracket__team">
                                 <td class="tournament-bracket__country">
-                                    <abbr class="tournament-bracket__code" th:text="${match.player2}"></abbr>
+                                    <abbr class="tournament-bracket__code" th:text="${match.player2}" th:classappend="${match.player2Score > match.player1Score} ? 'player-win' : 'player-loss'"></abbr>
                                     <span class="tournament-bracket__flag flag-icon flag-icon-cz"
                                           aria-label="Flag"></span>
                                 </td>
@@ -115,7 +116,7 @@
             </ul>
         </div>
         <div class="tournament-bracket__round tournament-bracket__round--bronze">
-            <h3 class="tournament-bracket__round-title">Bronze medal game</h3>
+            <h3 class="tournament-bracket__round-title">Третий раунд</h3>
             <ul class="tournament-bracket__list">
                 <li class="tournament-bracket__item" th:each="match : ${thirdRound}">
                     <div class="tournament-bracket__match" tabindex="0" th:attr="data-match-id=${match.id}">
@@ -132,7 +133,7 @@
                             <tbody class="tournament-bracket__content">
                             <tr class="tournament-bracket__team">
                                 <td class="tournament-bracket__country">
-                                    <abbr class="tournament-bracket__code" th:text="${match.player1}"></abbr>
+                                    <abbr class="tournament-bracket__code" th:text="${match.player1}" th:classappend="${match.player1Score > match.player2Score} ? 'player-win' : 'player-loss'"></abbr>
                                     <span class="tournament-bracket__flag flag-icon flag-icon-fi"
                                           aria-label="Flag"></span>
                                 </td>
@@ -146,7 +147,7 @@
                             </tr>
                             <tr class="tournament-bracket__team">
                                 <td class="tournament-bracket__country">
-                                    <abbr class="tournament-bracket__code" th:text="${match.player2}"></abbr>
+                                    <abbr class="tournament-bracket__code" th:text="${match.player2}" th:classappend="${match.player2Score > match.player1Score} ? 'player-win' : 'player-loss'"></abbr>
                                     <span class="tournament-bracket__flag flag-icon flag-icon-ca"
                                           aria-label="Flag"></span>
                                 </td>
@@ -165,7 +166,7 @@
             </ul>
         </div>
         <div class="tournament-bracket__round tournament-bracket__round--gold">
-            <h3 class="tournament-bracket__round-title">Gold medal game</h3>
+            <h3 class="tournament-bracket__round-title">Четвертый раунд</h3>
             <ul class="tournament-bracket__list">
                 <li class="tournament-bracket__item" th:each="match : ${fourthRound}">
                     <div class="tournament-bracket__match" tabindex="0" th:attr="data-match-id=${match.id}">
@@ -182,7 +183,7 @@
                             <tbody class="tournament-bracket__content">
                             <tr class="tournament-bracket__team">
                                 <td class="tournament-bracket__country">
-                                    <abbr class="tournament-bracket__code" th:text="${match.player1}"></abbr>
+                                    <abbr class="tournament-bracket__code" th:text="${match.player1}" th:classappend="${match.player1Score > match.player2Score} ? 'player-win' : 'player-loss'"></abbr>
                                     <span class="tournament-bracket__flag flag-icon flag-icon-cz"
                                           aria-label="Flag"></span>
                                 </td>
@@ -196,7 +197,7 @@
                             </tr>
                             <tr class="tournament-bracket__team">
                                 <td class="tournament-bracket__country">
-                                    <abbr class="tournament-bracket__code" th:text="${match.player2}"></abbr>
+                                    <abbr class="tournament-bracket__code" th:text="${match.player2}" th:classappend="${match.player2Score > match.player1Score} ? 'player-win' : 'player-loss'"></abbr>
                                     <span class="tournament-bracket__flag flag-icon flag-icon-ru"
                                           aria-label="Flag"></span>
                                 </td>
@@ -218,74 +219,6 @@
 </div>
 </body>
 <script>
-    // Получаем все матчи на странице
-    let matches = document.getElementsByClassName("tournament-bracket__match");
-
-    // Перебираем каждый матч
-    for (let i = 0; i < matches.length; i++) {
-        (function () {
-            let match = matches[i];
-            let scoreInputs = match.querySelectorAll(".player-score");
-            let matchId = match.getAttribute("data-match-id");
-
-            // Получаем контейнер матчей
-            let matchesContainer = document.getElementsByClassName("tournament-bracket__list")[0];
-
-// Обновляем очки и победителя при изменении значений
-            matchesContainer.addEventListener("input", function (event) {
-                let target = event.target;
-                if (target.classList.contains("player-score")) {
-                    updateScores(target);
-                }
-            });
-
-// Функция для обновления очков и победителя
-            function updateScores(scoreInput) {
-                let match = scoreInput.closest(".tournament-bracket__match");
-                let scoreInputs = match.querySelectorAll(".player-score");
-                let matchId = match.getAttribute("data-match-id");
-                let scores = [];
-                let winnerIndex = -1;
-
-                // Собираем все очки в массив
-                for (let j = 0; j < scoreInputs.length; j++) {
-                    let score = parseInt(scoreInputs[j].value);
-                    scores.push(score);
-
-                    // Проверяем, достиг ли игрок больше очков, чем его соперник
-                    if (score > scores[1 - j]) {
-                        winnerIndex = j;
-                    }
-                }
-
-                // Обновляем классы и победителя
-                for (let j = 0; j < scoreInputs.length; j++) {
-                    if (j === winnerIndex) {
-                        scoreInputs[j].classList.add("tournament-bracket__number--winner");
-                        match
-                            .querySelectorAll(".tournament-bracket__team")[j]
-                            .classList.add("tournament-bracket__team--winner");
-                    } else {
-                        scoreInputs[j].classList.remove("tournament-bracket__number--winner");
-                        match
-                            .querySelectorAll(".tournament-bracket__team")[j]
-                            .classList.remove("tournament-bracket__team--winner");
-                    }
-                }
-
-                // Если есть победитель, отправляем запрос на сервер для обновления значения переменной "winner" и matchId
-                if (winnerIndex !== -1) {
-                    let winner = match.querySelectorAll(".tournament-bracket__code")[winnerIndex].textContent;
-                    updateMatchAndScores(matchId, winner, scores[0], scores[1]);
-                }
-            }
-
-
-
-            // Инициализируем очки и победителя при загрузке страницы
-            // updateScores();
-        })();
-    }
 
     // Функция для отправки запроса на сервер и обновления значения переменной "winner"
     function updateMatchAndScores(matchId, winner, player1Score, player2Score) {
@@ -311,6 +244,34 @@
             });
     }
 
+    // Функция для проверки изменения очков в матче и вызова функции updateMatchAndScores
+    function checkScores(matchId) {
+        let matchElement = document.querySelector("[data-match-id='" + matchId + "']");
+        let playerScoreElements = matchElement.querySelectorAll(".player-score");
+
+        let player1Score = parseInt(playerScoreElements[0].value);
+        let player2Score = parseInt(playerScoreElements[1].value);
+
+        if (!isNaN(player1Score) && !isNaN(player2Score)) {
+            let player1 = matchElement.getAttribute("data-player1");
+            let player2 = matchElement.getAttribute("data-player2");
+            let winner = player1Score > player2Score ? player1 : player2;
+            updateMatchAndScores(matchId, winner, player1Score, player2Score);
+        }
+    }
+
+    // Получение всех матчей
+    let matches = document.querySelectorAll(".tournament-bracket__match");
+
+    // Добавление обработчика события для каждого матча
+    matches.forEach(function(match) {
+        let matchId = match.getAttribute("data-match-id");
+        match.addEventListener("change", function() {
+            checkScores(matchId);
+        });
+    });
+
 </script>
+
 
 </html>
