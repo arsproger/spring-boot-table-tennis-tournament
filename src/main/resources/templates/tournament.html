@@ -69,7 +69,8 @@
             <h3 class="tournament-bracket__round-title">Второй раунд</h3>
             <ul class="tournament-bracket__list">
                 <li class="tournament-bracket__item" th:each="match : ${secondRound}">
-                    <div class="tournament-bracket__match" tabindex="0" th:attr="data-match-id=${match.id}">
+                    <div class="tournament-bracket__match" tabindex="0"
+                         th:attr="data-match-id=${match.id}, data-player1=${match.player1}, data-player2=${match.player2}">
                         <table class="tournament-bracket__table">
                             <caption class="tournament-bracket__caption">
                                 <!-- Remove date and score -->
@@ -119,7 +120,8 @@
             <h3 class="tournament-bracket__round-title">Третий раунд</h3>
             <ul class="tournament-bracket__list">
                 <li class="tournament-bracket__item" th:each="match : ${thirdRound}">
-                    <div class="tournament-bracket__match" tabindex="0" th:attr="data-match-id=${match.id}">
+                    <div class="tournament-bracket__match" tabindex="0"
+                         th:attr="data-match-id=${match.id}, data-player1=${match.player1}, data-player2=${match.player2}">
                         <table class="tournament-bracket__table">
                             <caption class="tournament-bracket__caption">
                                 <!-- Remove date and score -->
@@ -169,7 +171,8 @@
             <h3 class="tournament-bracket__round-title">Четвертый раунд</h3>
             <ul class="tournament-bracket__list">
                 <li class="tournament-bracket__item" th:each="match : ${fourthRound}">
-                    <div class="tournament-bracket__match" tabindex="0" th:attr="data-match-id=${match.id}">
+                    <div class="tournament-bracket__match" tabindex="0"
+                         th:attr="data-match-id=${match.id}, data-player1=${match.player1}, data-player2=${match.player2}">
                         <table class="tournament-bracket__table">
                             <caption class="tournament-bracket__caption">
                                 <!-- Remove date and score -->
