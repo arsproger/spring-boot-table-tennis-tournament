@@ -31,14 +31,12 @@
                             <tbody class="tournament-bracket__content">
                             <tr class="tournament-bracket__team">
                                 <td class="tournament-bracket__country">
-                                    <span class="tournament-bracket__cup" th:if="${match.player2 == null}">&#x1F3C6;</span>
                                     <abbr class="tournament-bracket__code" th:text="${match.player1}" th:classappend="${match.player1Score > match.player2Score} ? 'player-win' : 'player-loss'"></abbr>
                                     <span class="tournament-bracket__flag flag-icon flag-icon-ca"
                                           aria-label="Flag"></span>
                                 </td>
                                 <td class="tournament-bracket__score" th:if="${match.player2 != null}">
                                     <label>
-                                        <span class="tournament-bracket__cup" th:if="${match.player1Score > match.player2Score}">&#x1F3C6;</span>
                                         <input class="tournament-bracket__number player-score"
                                                type="number" min="0" max="99" th:value="${match.player1Score}">
                                     </label>
@@ -55,7 +53,6 @@
                                     <label>
                                         <input class="tournament-bracket__number player-score"
                                                type="number" min="0" max="99" th:value="${match.player2Score}">
-                                        <span class="tournament-bracket__cup" th:if="${match.player2Score > match.player1Score}">&#x1F3C6;</span>
                                     </label>
                                 </td>
                             </tr>
@@ -90,7 +87,6 @@
                                 </td>
                                 <td class="tournament-bracket__score">
                                     <label>
-                                        <span class="tournament-bracket__cup" th:if="${match.player1Score > match.player2Score}">&#x1F3C6;</span>
                                         <input class="tournament-bracket__number player-score"
                                                type="number" min="0" max="99" th:value="${match.player1Score}">
                                     </label>
@@ -106,7 +102,6 @@
                                     <label>
                                         <input class="tournament-bracket__number player-score"
                                                type="number" min="0" max="99" th:value="${match.player2Score}">
-                                        <span class="tournament-bracket__cup" th:if="${match.player2Score > match.player1Score}">&#x1F3C6;</span>
                                     </label>
                                 </td>
                             </tr>
@@ -141,7 +136,6 @@
                                 </td>
                                 <td class="tournament-bracket__score">
                                     <label>
-                                        <span class="tournament-bracket__cup" th:if="${match.player1Score > match.player2Score}">&#x1F3C6;</span>
                                         <input class="tournament-bracket__number player-score"
                                                type="number" min="0" max="99" th:value="${match.player1Score}">
                                     </label>
@@ -157,7 +151,6 @@
                                     <label>
                                         <input class="tournament-bracket__number player-score"
                                                type="number" min="0" max="99" th:value="${match.player2Score}">
-                                        <span class="tournament-bracket__cup" th:if="${match.player2Score > match.player1Score}">&#x1F3C6;</span>
                                     </label>
                                 </td>
                             </tr>
@@ -192,7 +185,6 @@
                                 </td>
                                 <td class="tournament-bracket__score">
                                     <label>
-                                        <span class="tournament-bracket__cup" th:if="${match.player1Score > match.player2Score}">&#x1F3C6;</span>
                                         <input class="tournament-bracket__number player-score"
                                                type="number" min="0" max="99" th:value="${match.player1Score}">
                                     </label>
@@ -208,7 +200,6 @@
                                     <label>
                                         <input class="tournament-bracket__number player-score"
                                                type="number" min="0" max="99" th:value="${match.player2Score}">
-                                        <span class="tournament-bracket__cup" th:if="${match.player2Score > match.player1Score}">&#x1F3C6;</span>
                                     </label>
                                 </td>
                             </tr>

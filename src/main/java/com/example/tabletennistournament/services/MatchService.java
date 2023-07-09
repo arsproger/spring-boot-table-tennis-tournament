@@ -22,24 +22,36 @@ public class MatchService {
     public void buildTournamentGrid(Long tournamentId) {
         Tournament tournament = tournamentService.getById(tournamentId);
         List<String> participants = tournament.getUsers();
+        if (participants.size() < 3 || participants.size() > 16) {
+            throw new AppException("Число игроков должно быть от 3 до 16", HttpStatus.BAD_REQUEST);
+        }
         Collections.shuffle(participants);
         List<Match> firstRoundMatches = new ArrayList<>();
         List<Match> secondRoundMatches = new ArrayList<>();
         List<Match> thirdRoundMatches = new ArrayList<>();
         List<Match> fourthRoundMatches = new ArrayList<>();
         double participantsSize = participants.size();
-        while (true) {
-            if (participantsSize / 4.0 > 0.0) {
-                participantsSize -= 4;
-                Match match1 = Match.builder().matchType(MatchType.FIRST_ROUND).tournament(tournament).build();
-                Match match2 = Match.builder().matchType(MatchType.FIRST_ROUND).tournament(tournament).build();
-                firstRoundMatches.addAll(List.of(match1, match2));
-                saveMatch(match1);
-                saveMatch(match2);
-            } else {
-                break;
-            }
+
+        int matchSize = 0;
+        if(participantsSize > 2 && participantsSize <= 4) {
+            matchSize = 2;
+        } else if (participantsSize > 4 && participantsSize <= 8) {
+            matchSize = 4;
+        } else if (participantsSize > 8 && participantsSize <= 16) {
+            matchSize = 8;
+        } else if (participantsSize > 16 && participantsSize <= 32) {
+            matchSize = 16;
         }
+
+        while (participantsSize > matchSize) {
+            for (int i = 0; i < matchSize; i++) {
+                Match match = Match.builder().matchType(MatchType.FIRST_ROUND).tournament(tournament).build();
+                firstRoundMatches.add(match);
+                saveMatch(match);
+            }
+            participantsSize -= matchSize;
+        }
+
         int amountFirstRound = firstRoundMatches.size();
         int participantsSizeInt = participants.size();
         for (Match firstRound : firstRoundMatches) {
@@ -196,7 +208,6 @@ public class MatchService {
             }
             matchRepository.save(updatedMatch);
         }
-//        return matchId;
     }
 
     public List<Match> getMatchesByTournamentId(Long tournamentId) {
