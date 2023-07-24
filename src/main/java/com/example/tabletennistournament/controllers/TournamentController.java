@@ -5,10 +5,12 @@ import com.example.tabletennistournament.mappers.TournamentMapper;
 import com.example.tabletennistournament.models.Tournament;
 import com.example.tabletennistournament.services.MatchService;
 import com.example.tabletennistournament.services.TournamentService;
+import com.example.tabletennistournament.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +22,7 @@ public class TournamentController {
     private final TournamentService tournamentService;
     private final TournamentMapper tournamentMapper;
     private final MatchService matchService;
+    private final UserService userService;
 
     @ResponseBody
     @GetMapping
@@ -34,15 +37,17 @@ public class TournamentController {
     }
 
     @GetMapping("/create")
-    public String create(@ModelAttribute("tournament") Tournament tournament) {
-        return "newTournament";
+    public String create(@ModelAttribute("tournament") TournamentDto tournament, Model model) {
+        model.addAttribute("users", userService.getAll());
+        return "/newTournament";
     }
 
     @PostMapping
-    public String save(@ModelAttribute("tournament") TournamentDto tournament) {
-        Long tournamentId = tournamentService.save(tournamentMapper.map(tournament));
-        matchService.buildTournamentGrid(tournamentId);
-        return "redirect:/matches/tournament/" + tournamentId;
+    public String save(@ModelAttribute("tournament") TournamentDto tournamentDto) {
+        Long tournamentId = tournamentService.save(tournamentMapper.map(tournamentDto));
+        Tournament tournament = tournamentService.getById(tournamentId);
+        matchService.buildTournamentGrid(tournament);
+        return "redirect:/matches/tournament/" + tournamentId + "/" + tournament.getUsers().size();
     }
 
     @ResponseBody
@@ -55,6 +60,12 @@ public class TournamentController {
     @PatchMapping("/{id}")
     public ResponseEntity<Long> updateById(@PathVariable Long id, @RequestBody TournamentDto tournament) {
         return new ResponseEntity<>(tournamentService.updateById(id, tournamentMapper.map(tournament)), HttpStatus.OK);
+    }
+
+    @GetMapping("/finish/{tournamentId}")
+    public String finish(@PathVariable Long tournamentId) {
+        matchService.finishTournament(tournamentId);
+        return "redirect:/user/profile";
     }
 
 }

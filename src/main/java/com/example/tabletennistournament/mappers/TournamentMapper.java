@@ -3,7 +3,6 @@ package com.example.tabletennistournament.mappers;
 import com.example.tabletennistournament.dtos.TournamentDto;
 import com.example.tabletennistournament.models.Tournament;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

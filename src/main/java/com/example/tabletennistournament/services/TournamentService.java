@@ -1,5 +1,6 @@
 package com.example.tabletennistournament.services;
 
+import com.example.tabletennistournament.enums.TournamentType;
 import com.example.tabletennistournament.exceptions.AppException;
 import com.example.tabletennistournament.models.Tournament;
 import com.example.tabletennistournament.repositories.TournamentRepository;
@@ -27,6 +28,7 @@ public class TournamentService {
 
     public Long save(Tournament tournament) {
         tournament.setDateTime(LocalDateTime.now());
+        tournament.setTournamentType(TournamentType.ACTIVE);
         return tournamentRepository.save(tournament).getId();
     }
 
@@ -37,10 +39,9 @@ public class TournamentService {
 
     public Long updateById(Long id, Tournament updatedTournament) {
         Tournament tournament = getById(id);
-        tournament.setName(updatedTournament.getName());
         tournament.setUsers(updatedTournament.getUsers());
 
         return tournamentRepository.save(tournament).getId();
     }
-    
+
 }

@@ -8,7 +8,6 @@
 <body>
 <div class="container">
     <h1>Турнир по настольному теннису</h1>
-    <h2 th:text="'Название турнира: ' + ${tournamentName}"></h2>
     <h2 th:text="'Количество игроков: ' + ${amountUsers}"></h2>
     <h2 th:text="'Количество партий: ' + ${amountMatches}"></h2>
     <div class="tournament-bracket tournament-bracket--rounded">
@@ -17,10 +16,9 @@
             <ul class="tournament-bracket__list">
                 <li class="tournament-bracket__item" th:each="match : ${firstRound}">
                     <div class="tournament-bracket__match" tabindex="0"
-                         th:attr="data-match-id=${match.id}, data-player1=${match.player1}, data-player2=${match.player2}">
+                         th:attr="data-match-id=${match.id}, data-player1=${match?.player1?.id}, data-player2=${match?.player2?.id}">
                         <table class="tournament-bracket__table">
                             <caption class="tournament-bracket__caption">
-                                <!-- Remove date and score -->
                             </caption>
                             <thead class="sr-only">
                             <tr>
@@ -31,11 +29,12 @@
                             <tbody class="tournament-bracket__content">
                             <tr class="tournament-bracket__team">
                                 <td class="tournament-bracket__country">
-                                    <abbr class="tournament-bracket__code" th:text="${match.player1}" th:classappend="${match.player1Score > match.player2Score} ? 'player-win' : 'player-loss'"></abbr>
+                                    <abbr class="tournament-bracket__code" th:text="${match.player1?.fullName}"
+                                          th:classappend="${match.player1Score > match.player2Score} ? 'player-win' : 'player-loss'"></abbr>
                                     <span class="tournament-bracket__flag flag-icon flag-icon-ca"
                                           aria-label="Flag"></span>
                                 </td>
-                                <td class="tournament-bracket__score" th:if="${match.player2 != null}">
+                                <td class="tournament-bracket__score" th:if="${match.player1 != null and match.player2 != null}">
                                     <label>
                                         <input class="tournament-bracket__number player-score"
                                                type="number" min="0" max="99" th:value="${match.player1Score}">
@@ -44,12 +43,13 @@
                             </tr>
                             <tr class="tournament-bracket__team">
                                 <td class="tournament-bracket__country">
-                                    <abbr class="tournament-bracket__code" th:text="${match.player2}" th:classappend="${match.player2Score > match.player1Score} ? 'player-win' : 'player-loss'"></abbr>
+                                    <abbr class="tournament-bracket__code" th:text="${match.player2?.fullName}"
+                                          th:classappend="${match.player2Score > match.player1Score} ? 'player-win' : 'player-loss'"></abbr>
                                     <abbr class="tournament-bracket__code" th:if="${match.player2 == null}">no pair</abbr>
                                     <span class="tournament-bracket__flag flag-icon flag-icon-kz"
                                           aria-label="Flag"></span>
                                 </td>
-                                <td class="tournament-bracket__score" th:if="${match.player2 != null}">
+                                <td class="tournament-bracket__score" th:if="${match.player1 != null and match.player2 != null}">
                                     <label>
                                         <input class="tournament-bracket__number player-score"
                                                type="number" min="0" max="99" th:value="${match.player2Score}">
@@ -67,10 +67,9 @@
             <ul class="tournament-bracket__list">
                 <li class="tournament-bracket__item" th:each="match : ${secondRound}">
                     <div class="tournament-bracket__match" tabindex="0"
-                         th:attr="data-match-id=${match.id}, data-player1=${match.player1}, data-player2=${match.player2}">
+                         th:attr="data-match-id=${match.id}, data-player1=${match?.player1?.id}, data-player2=${match?.player2?.id}">
                         <table class="tournament-bracket__table">
                             <caption class="tournament-bracket__caption">
-                                <!-- Remove date and score -->
                             </caption>
                             <thead class="sr-only">
                             <tr>
@@ -81,11 +80,13 @@
                             <tbody class="tournament-bracket__content">
                             <tr class="tournament-bracket__team">
                                 <td class="tournament-bracket__country">
-                                    <abbr class="tournament-bracket__code" th:text="${match.player1}" th:classappend="${match.player1Score > match.player2Score} ? 'player-win' : 'player-loss'"></abbr>
+                                    <abbr class="tournament-bracket__code" th:text="${match.player1?.fullName}"
+                                          th:classappend="${match.player1Score > match.player2Score} ? 'player-win' : 'player-loss'"></abbr>
+                                    <abbr class="tournament-bracket__code" th:if="${match.player1 == null and match.player2 != null}">pending</abbr>
                                     <span class="tournament-bracket__flag flag-icon flag-icon-ca"
                                           aria-label="Flag"></span>
                                 </td>
-                                <td class="tournament-bracket__score">
+                                <td class="tournament-bracket__score" th:if="${match.player1 != null and match.player2 != null}">
                                     <label>
                                         <input class="tournament-bracket__number player-score"
                                                type="number" min="0" max="99" th:value="${match.player1Score}">
@@ -94,11 +95,12 @@
                             </tr>
                             <tr class="tournament-bracket__team">
                                 <td class="tournament-bracket__country">
-                                    <abbr class="tournament-bracket__code" th:text="${match.player2}" th:classappend="${match.player2Score > match.player1Score} ? 'player-win' : 'player-loss'"></abbr>
+                                    <abbr class="tournament-bracket__code" th:text="${match.player2?.fullName}"
+                                          th:classappend="${match.player2Score > match.player1Score} ? 'player-win' : 'player-loss'"></abbr>
                                     <span class="tournament-bracket__flag flag-icon flag-icon-cz"
                                           aria-label="Flag"></span>
                                 </td>
-                                <td class="tournament-bracket__score">
+                                <td class="tournament-bracket__score" th:if="${match.player1 != null and match.player2 != null}">
                                     <label>
                                         <input class="tournament-bracket__number player-score"
                                                type="number" min="0" max="99" th:value="${match.player2Score}">
@@ -116,10 +118,9 @@
             <ul class="tournament-bracket__list">
                 <li class="tournament-bracket__item" th:each="match : ${thirdRound}">
                     <div class="tournament-bracket__match" tabindex="0"
-                         th:attr="data-match-id=${match.id}, data-player1=${match.player1}, data-player2=${match.player2}">
-                        <table class="tournament-bracket__table">
+                         th:attr="data-match-id=${match.id}, data-player1=${match?.player1?.id}, data-player2=${match?.player2?.id}">
+                    <table class="tournament-bracket__table">
                             <caption class="tournament-bracket__caption">
-                                <!-- Remove date and score -->
                             </caption>
                             <thead class="sr-only">
                             <tr>
@@ -130,11 +131,12 @@
                             <tbody class="tournament-bracket__content">
                             <tr class="tournament-bracket__team">
                                 <td class="tournament-bracket__country">
-                                    <abbr class="tournament-bracket__code" th:text="${match.player1}" th:classappend="${match.player1Score > match.player2Score} ? 'player-win' : 'player-loss'"></abbr>
+                                    <abbr class="tournament-bracket__code" th:text="${match.player1?.fullName}"
+                                          th:classappend="${match.player1Score > match.player2Score} ? 'player-win' : 'player-loss'"></abbr>
                                     <span class="tournament-bracket__flag flag-icon flag-icon-fi"
                                           aria-label="Flag"></span>
                                 </td>
-                                <td class="tournament-bracket__score">
+                                <td class="tournament-bracket__score" th:if="${match.player1 != null and match.player2 != null}">
                                     <label>
                                         <input class="tournament-bracket__number player-score"
                                                type="number" min="0" max="99" th:value="${match.player1Score}">
@@ -143,11 +145,12 @@
                             </tr>
                             <tr class="tournament-bracket__team">
                                 <td class="tournament-bracket__country">
-                                    <abbr class="tournament-bracket__code" th:text="${match.player2}" th:classappend="${match.player2Score > match.player1Score} ? 'player-win' : 'player-loss'"></abbr>
+                                    <abbr class="tournament-bracket__code" th:text="${match.player2?.fullName}"
+                                          th:classappend="${match.player2Score > match.player1Score} ? 'player-win' : 'player-loss'"></abbr>
                                     <span class="tournament-bracket__flag flag-icon flag-icon-ca"
                                           aria-label="Flag"></span>
                                 </td>
-                                <td class="tournament-bracket__score">
+                                <td class="tournament-bracket__score" th:if="${match.player1 != null and match.player2 != null}">
                                     <label>
                                         <input class="tournament-bracket__number player-score"
                                                type="number" min="0" max="99" th:value="${match.player2Score}">
@@ -165,10 +168,9 @@
             <ul class="tournament-bracket__list">
                 <li class="tournament-bracket__item" th:each="match : ${fourthRound}">
                     <div class="tournament-bracket__match" tabindex="0"
-                         th:attr="data-match-id=${match.id}, data-player1=${match.player1}, data-player2=${match.player2}">
+                         th:attr="data-match-id=${match.id}, data-player1=${match?.player1?.id}, data-player2=${match?.player2?.id}">
                         <table class="tournament-bracket__table">
                             <caption class="tournament-bracket__caption">
-                                <!-- Remove date and score -->
                             </caption>
                             <thead class="sr-only">
                             <tr>
@@ -179,11 +181,12 @@
                             <tbody class="tournament-bracket__content">
                             <tr class="tournament-bracket__team">
                                 <td class="tournament-bracket__country">
-                                    <abbr class="tournament-bracket__code" th:text="${match.player1}" th:classappend="${match.player1Score > match.player2Score} ? 'player-win' : 'player-loss'"></abbr>
+                                    <abbr class="tournament-bracket__code" th:text="${match.player1?.fullName}"
+                                          th:classappend="${match.player1Score > match.player2Score} ? 'player-win' : 'player-loss'"></abbr>
                                     <span class="tournament-bracket__flag flag-icon flag-icon-cz"
                                           aria-label="Flag"></span>
                                 </td>
-                                <td class="tournament-bracket__score">
+                                <td class="tournament-bracket__score" th:if="${match.player1 != null and match.player2 != null}">
                                     <label>
                                         <input class="tournament-bracket__number player-score"
                                                type="number" min="0" max="99" th:value="${match.player1Score}">
@@ -192,11 +195,12 @@
                             </tr>
                             <tr class="tournament-bracket__team">
                                 <td class="tournament-bracket__country">
-                                    <abbr class="tournament-bracket__code" th:text="${match.player2}" th:classappend="${match.player2Score > match.player1Score} ? 'player-win' : 'player-loss'"></abbr>
+                                    <abbr class="tournament-bracket__code" th:text="${match.player2?.fullName}"
+                                          th:classappend="${match.player2Score > match.player1Score} ? 'player-win' : 'player-loss'"></abbr>
                                     <span class="tournament-bracket__flag flag-icon flag-icon-ru"
                                           aria-label="Flag"></span>
                                 </td>
-                                <td class="tournament-bracket__score">
+                                <td class="tournament-bracket__score" th:if="${match.player1 != null and match.player2 != null}">
                                     <label>
                                         <input class="tournament-bracket__number player-score"
                                                type="number" min="0" max="99" th:value="${match.player2Score}">
@@ -211,17 +215,20 @@
         </div>
     </div>
 </div>
+<div class="container">
+    <div class="complete-tournament-button">
+        <a class="btn-red" th:href="@{/tournament/finish/{tournamentId}(tournamentId=${tournamentId})}">Завершить турнир</a>
+    </div>
+</div>
 </body>
 <script>
 
-    // Функция для отправки запроса на сервер и обновления значения переменной "winner"
     function updateMatchAndScores(matchId, winner, player1Score, player2Score) {
-        fetch("/matches?matchId=" + matchId + "&winner=" + winner + "&player1Score=" + player1Score + "&player2Score=" + player2Score, {
+        fetch("/matches?matchId=" + matchId + "&winnerId=" + winner + "&player1Score=" + player1Score + "&player2Score=" + player2Score, {
             method: "PATCH",
         })
             .then(response => response.json())
             .then(data => {
-                // Обработка успешного ответа от сервера (если необходимо)
                 let matchElement = document.querySelector("[data-match-id='" + matchId + "']");
                 let codeElements = matchElement.querySelectorAll(".tournament-bracket__code");
                 let numberElement = matchElement.querySelector(".tournament-bracket__number");
@@ -230,7 +237,6 @@
                 codeElements[1].textContent = data.player2;
                 numberElement.textContent = data.score;
 
-                // Автоматическая перезагрузка страницы после успешного выполнения патч-запроса
                 location.reload();
             })
             .catch(error => {
@@ -238,7 +244,6 @@
             });
     }
 
-    // Функция для проверки изменения очков в матче и вызова функции updateMatchAndScores
     function checkScores(matchId) {
         let matchElement = document.querySelector("[data-match-id='" + matchId + "']");
         let playerScoreElements = matchElement.querySelectorAll(".player-score");
@@ -254,18 +259,14 @@
         }
     }
 
-    // Получение всех матчей
     let matches = document.querySelectorAll(".tournament-bracket__match");
 
-    // Добавление обработчика события для каждого матча
-    matches.forEach(function(match) {
+    matches.forEach(function (match) {
         let matchId = match.getAttribute("data-match-id");
-        match.addEventListener("change", function() {
+        match.addEventListener("change", function () {
             checkScores(matchId);
         });
     });
 
 </script>
-
-
 </html>

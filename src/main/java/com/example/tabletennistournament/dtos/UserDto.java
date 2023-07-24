@@ -9,4 +9,6 @@ public class UserDto {
     private String username;
     private String password;
     private String fullName;
+    private Integer numberOfMatchesWon;
+    private Integer numberOfTournamentsWon;
 }

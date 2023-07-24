@@ -1,5 +1,7 @@
 package com.example.tabletennistournament.dtos;
 
+import com.example.tabletennistournament.enums.TournamentType;
+import com.example.tabletennistournament.models.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +12,6 @@ import java.util.List;
 @Setter
 public class TournamentDto {
     private LocalDateTime dateTime;
-    private String name;
-    private List<String> users;
+    private TournamentType tournamentType;
+    private List<User> users;
 }

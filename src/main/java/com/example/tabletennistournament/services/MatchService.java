@@ -1,10 +1,13 @@
 package com.example.tabletennistournament.services;
 
 import com.example.tabletennistournament.enums.MatchType;
+import com.example.tabletennistournament.enums.TournamentType;
 import com.example.tabletennistournament.exceptions.AppException;
 import com.example.tabletennistournament.models.Match;
 import com.example.tabletennistournament.models.Tournament;
+import com.example.tabletennistournament.models.User;
 import com.example.tabletennistournament.repositories.MatchRepository;
+import com.example.tabletennistournament.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -18,12 +21,13 @@ import java.util.List;
 public class MatchService {
     private final MatchRepository matchRepository;
     private final TournamentService tournamentService;
+    private final UserService userService;
+    private final UserRepository userRepository;
 
-    public void buildTournamentGrid(Long tournamentId) {
-        Tournament tournament = tournamentService.getById(tournamentId);
-        List<String> participants = tournament.getUsers();
-        if (participants.size() < 3 || participants.size() > 16) {
-            throw new AppException("Число игроков должно быть от 3 до 16", HttpStatus.BAD_REQUEST);
+    public void buildTournamentGrid(Tournament tournament) {
+        List<User> participants = tournament.getUsers();
+        if (participants.size() < 3 || participants.size() > 32) {
+            throw new AppException("Число игроков должно быть от 3 до 32", HttpStatus.BAD_REQUEST);
         }
         Collections.shuffle(participants);
         List<Match> firstRoundMatches = new ArrayList<>();
@@ -33,7 +37,7 @@ public class MatchService {
         double participantsSize = participants.size();
 
         int matchSize = 0;
-        if(participantsSize > 2 && participantsSize <= 4) {
+        if (participantsSize > 2 && participantsSize <= 4) {
             matchSize = 2;
         } else if (participantsSize > 4 && participantsSize <= 8) {
             matchSize = 4;
@@ -169,7 +173,41 @@ public class MatchService {
         }
 
         saveMatches(fourthRoundMatches);
+    }
 
+    public void finishTournament(Long tournamentId) {
+        Tournament tournament = tournamentService.getById(tournamentId);
+        List<Match> matches = getMatchesByTournamentId(tournamentId);
+        MatchType maxMatchType;
+
+        if (matches.size() == 3) {
+            maxMatchType = MatchType.SECOND_ROUND;
+        } else if (matches.size() == 7) {
+            maxMatchType = MatchType.THIRD_ROUND;
+        } else if (matches.size() == 15) {
+            maxMatchType = MatchType.FOURTH_ROUND;
+        } else if (matches.size() == 31) {
+            maxMatchType = MatchType.FIFTH_ROUND;
+        } else {
+            throw new AppException("Ошибка при завершении турнира", HttpStatus.BAD_REQUEST);
+        }
+
+        for (Match match : matches) {
+            User user = match.getWinner();
+            if (user != null) {
+                if (match.getMatchType().equals(maxMatchType)) {
+                    user.setNumberOfMatchesWon(user.getNumberOfMatchesWon() + 1);
+                    user.setNumberOfTournamentsWon(user.getNumberOfTournamentsWon() + 1);
+                    userRepository.save(user);
+                } else {
+                    user.setNumberOfMatchesWon(user.getNumberOfMatchesWon() + 1);
+                    userRepository.save(user);
+                }
+            }
+        }
+
+        tournament.setTournamentType(TournamentType.FINISH);
+        tournamentService.save(tournament);
     }
 
     public void saveMatches(List<Match> matches) {
@@ -192,7 +230,8 @@ public class MatchService {
         return matchRepository.findAll();
     }
 
-    public void updateMatchAndScores(Long matchId, String winner, Integer player1Score, Integer player2Score) {
+    public void updateMatchAndScores(Long matchId, Long winnerId, Integer player1Score, Integer player2Score) {
+        User winner = userService.getById(winnerId);
         Match match = getById(matchId);
         match.setWinner(winner);
         match.setPlayer1Score(player1Score);

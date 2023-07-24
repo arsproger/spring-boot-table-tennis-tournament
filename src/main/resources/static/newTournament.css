@@ -1,0 +1,29 @@
+body {
+    background-color: #f8f9fa;
+}
+
+.container {
+    margin-top: 20px;
+}
+
+.user-card {
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    transition: box-shadow 0.3s ease;
+    transform: translateZ(0);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.user-card:hover {
+    background-color: #f8f9fa;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.selected {
+    background-color: limegreen;
+    color: #fff;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}

@@ -1,5 +1,6 @@
 package com.example.tabletennistournament.models;
 
+import com.example.tabletennistournament.enums.TournamentType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,9 +19,10 @@ public class Tournament {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDateTime dateTime;
-    private String name;
-//    @OneToMany(mappedBy = "tournament")
-    private List<String> users;
+    @Enumerated(EnumType.STRING)
+    private TournamentType tournamentType;
+    @ManyToMany(mappedBy = "tournaments")
+    private List<User> users;
     @OneToMany(mappedBy = "tournament")
     private List<Match> matches;
 }

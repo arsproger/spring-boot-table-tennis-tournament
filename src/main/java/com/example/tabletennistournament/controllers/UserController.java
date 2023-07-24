@@ -2,11 +2,14 @@ package com.example.tabletennistournament.controllers;
 
 import com.example.tabletennistournament.dtos.UserDto;
 import com.example.tabletennistournament.mappers.UserMapper;
+import com.example.tabletennistournament.security.DetailsUser;
 import com.example.tabletennistournament.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +20,12 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
     private final UserMapper userMapper;
+
+    @GetMapping("/profile")
+    public String profile(@AuthenticationPrincipal DetailsUser user, Model model) {
+        model.addAttribute("user", userMapper.map(userService.getById(user.getUser().getId())));
+        return "/profile";
+    }
 
     @GetMapping
     public ResponseEntity<List<UserDto>> getAll() {

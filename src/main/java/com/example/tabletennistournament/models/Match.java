@@ -16,11 +16,17 @@ public class Match {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String player1;
-    private String player2;
+    @ManyToOne
+    @JoinColumn(name = "player1_id", referencedColumnName = "id")
+    private User player1;
+    @ManyToOne
+    @JoinColumn(name = "player2_id", referencedColumnName = "id")
+    private User player2;
     private Integer player1Score;
     private Integer player2Score;
-    private String winner;
+    @ManyToOne
+    @JoinColumn(name = "winner_id", referencedColumnName = "id")
+    private User winner;
     private Long nextMatchId;
     private Integer nextMatchPlayerNumber;
     @Enumerated(EnumType.STRING)

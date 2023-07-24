@@ -23,19 +23,18 @@ public class AuthController {
         return "loginRegister";
     }
 
-//    @GetMapping("/login")
-//    public String loginPage(Model model) {
-//        model.addAttribute("isPresentEmail", false);
-//        return "login";
-//    }
-//
-//    @GetMapping("/register")
-//    public String registrationPage(@ModelAttribute("user") UserDto userDTO) {
-//        return "register";
-//    }
+    @GetMapping("/login")
+    public String loginPage() {
+        return "login";
+    }
+
+    @GetMapping("/register")
+    public String registrationPage(@ModelAttribute("user") UserDto user) {
+        return "register";
+    }
 
     @PostMapping("/register")
-    public String register(@ModelAttribute("user") UserDto userDTO, Model model) {
+    public String register(@ModelAttribute("user") UserDto userDTO) {
         userService.save(userMapper.map(userDTO));
         return "redirect:/auth/login";
     }
