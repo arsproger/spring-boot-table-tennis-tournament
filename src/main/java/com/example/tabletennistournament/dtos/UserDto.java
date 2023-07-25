@@ -1,5 +1,6 @@
 package com.example.tabletennistournament.dtos;
 
+import com.example.tabletennistournament.enums.UserRole;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,4 +12,5 @@ public class UserDto {
     private String fullName;
     private Integer numberOfMatchesWon;
     private Integer numberOfTournamentsWon;
+    private UserRole role;
 }

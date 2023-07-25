@@ -10,7 +10,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -30,10 +33,14 @@ public class UserService {
 
     public Long save(User user) {
         user.setRole(UserRole.ROLE_USER);
-        user.setRegisterDate(LocalDateTime.now());
+        String pattern = "dd-MM-yyyy HH:mm:ss";
+        user.setRegisterDate(LocalDateTime.parse(LocalDateTime.now()
+                        .format(DateTimeFormatter.ofPattern(pattern)),
+                DateTimeFormatter.ofPattern(pattern)));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setNumberOfMatchesWon(0);
         user.setNumberOfTournamentsWon(0);
+        user.setTournaments(new ArrayList<>());
         return userRepository.save(user).getId();
     }
 
@@ -47,6 +54,10 @@ public class UserService {
         user.setFullName(updatedUser.getFullName());
         user.setUsername(updatedUser.getUsername());
         return userRepository.save(user).getId();
+    }
+
+    public Optional<User> getByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 
 }

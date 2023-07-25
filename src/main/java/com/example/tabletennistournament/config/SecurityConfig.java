@@ -28,7 +28,7 @@ public class SecurityConfig {
                 .formLogin()
                 .loginPage("/auth/register")
                 .loginProcessingUrl("/process_login")
-                .defaultSuccessUrl("/tournament/create", true)
+                .defaultSuccessUrl("/tournament", true)
                 .failureUrl("/auth/login?error")
                 .and()
                 .logout()

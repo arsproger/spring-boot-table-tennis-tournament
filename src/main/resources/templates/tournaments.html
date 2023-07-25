@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Tournaments List</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/tournaments.css">
+    <link rel="stylesheet" href="/static/navbar.css">
+</head>
+<body>
+<div id="navbar">
+    <div id="navbar-brand">Table Tennis</div>
+    <div id="navbar-links">
+        <a href="/tournament">Турниры</a>
+        <a href="/tournament/create">Новый турнир</a>
+        <a href="/user/profile">Профиль</a>
+        <a href="/logout">Выход</a>
+    </div>
+</div>
+<div class="container">
+    <h1 class="mt-5 mb-3">Список турниров</h1>
+    <div class="row" th:each="tournament : ${tournaments}">
+        <div class="col-md-12">
+            <div class="tournament-card">
+                <a th:href="@{/tournament/{id}(id=${tournament.id})}">
+                    <span class="tournament-title" th:text="${'Турнир #' + tournament.id}"></span>
+                </a>
+                <p class="tournament-info" th:text="'Кол-во игроков: ' + ${tournament.userCount}"></p>
+                <p class="tournament-info" th:text="'Дата создания: ' + ${tournament.dateTime}"></p>
+                <p class="tournament-status text-center" th:text="${tournament.tournamentType.toString()}"
+                   th:classappend="${tournament.tournamentType.toString().equals('FINISH')} ? 'red-text' : ''"></p>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:if="${tournaments.isEmpty()}" class="warning-container">
+    <div class="warning-box">
+        <h3 class="warn-text">Турниры еще не созданы!</h3>
+    </div>
+</div>
+</body>
+</html>
+

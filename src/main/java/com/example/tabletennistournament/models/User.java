@@ -3,6 +3,7 @@ package com.example.tabletennistournament.models;
 import com.example.tabletennistournament.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,12 +25,16 @@ public class User {
     private String fullName;
     @Enumerated(EnumType.STRING)
     private UserRole role;
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime registerDate;
     private Integer numberOfMatchesWon;
     private Integer numberOfTournamentsWon;
-    @ManyToMany
+    @OneToMany(mappedBy = "creator")
+    private List<Tournament> createTournaments;
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
-            name = "user_tournament",
+            name = "users_tournaments",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "tournament_id")
     )

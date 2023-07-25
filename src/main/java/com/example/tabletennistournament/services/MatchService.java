@@ -7,6 +7,7 @@ import com.example.tabletennistournament.models.Match;
 import com.example.tabletennistournament.models.Tournament;
 import com.example.tabletennistournament.models.User;
 import com.example.tabletennistournament.repositories.MatchRepository;
+import com.example.tabletennistournament.repositories.TournamentRepository;
 import com.example.tabletennistournament.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,7 @@ public class MatchService {
     private final TournamentService tournamentService;
     private final UserService userService;
     private final UserRepository userRepository;
+    private final TournamentRepository tournamentRepository;
 
     public void buildTournamentGrid(Tournament tournament) {
         List<User> participants = tournament.getUsers();
@@ -207,7 +209,7 @@ public class MatchService {
         }
 
         tournament.setTournamentType(TournamentType.FINISH);
-        tournamentService.save(tournament);
+        tournamentRepository.save(tournament);
     }
 
     public void saveMatches(List<Match> matches) {

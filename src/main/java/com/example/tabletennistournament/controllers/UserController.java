@@ -24,7 +24,7 @@ public class UserController {
     @GetMapping("/profile")
     public String profile(@AuthenticationPrincipal DetailsUser user, Model model) {
         model.addAttribute("user", userMapper.map(userService.getById(user.getUser().getId())));
-        return "/profile";
+        return "profile";
     }
 
     @GetMapping
