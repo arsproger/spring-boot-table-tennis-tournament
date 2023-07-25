@@ -45,7 +45,7 @@
     border: 2px solid #ff0000;
     border-radius: 5px;
     padding: 20px;
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.75);
 }
 
 .warn-text {
@@ -53,4 +53,14 @@
     color: #ff0000;
     font-size: 24px;
     font-weight: bold;
+}
+
+.countdown-number {
+    font-size: 24px;
+    font-weight: bold;
+    color: deeppink;
+    position: absolute;
+    top: 50%;
+    left: -20px;
+    transform: translateY(-50%);
 }

@@ -12,5 +12,9 @@ public class UserDto {
     private String fullName;
     private Integer numberOfMatchesWon;
     private Integer numberOfTournamentsWon;
+    private Integer numberOfMatchesPlayed;
+    private Integer numberOfTournamentsPlayed;
+    private Double matchWinningPercentage;
+    private Double tournamentWinningPercentage;
     private UserRole role;
 }

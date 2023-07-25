@@ -4,7 +4,7 @@ body {
 }
 
 .container {
-    max-width: 400px;
+    max-width: 800px;
 }
 
 .card {
@@ -12,6 +12,7 @@ body {
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-top: 150px;
+    height: auto;
 }
 
 .card-header {
@@ -27,14 +28,20 @@ body {
 }
 
 .card-body {
-    padding: 20px;
+    padding: 30px;
+    line-height: 4;
 }
 
 .card-body p {
     margin-bottom: 10px;
+    font-size: 18px;
 }
 
 .card-body strong {
-    width: 150px;
     display: inline-block;
+}
+
+.card-body .profile-info {
+    display: block;
+    font-size: 18px;
 }

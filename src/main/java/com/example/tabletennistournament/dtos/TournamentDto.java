@@ -21,5 +21,5 @@ public class TournamentDto {
     private TournamentType tournamentType;
     private Integer userCount;
     private List<User> users;
-    private Long creatorId;
+    private User creator;
 }

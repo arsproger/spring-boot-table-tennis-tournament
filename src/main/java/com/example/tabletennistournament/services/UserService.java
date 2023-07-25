@@ -9,11 +9,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -40,6 +39,10 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setNumberOfMatchesWon(0);
         user.setNumberOfTournamentsWon(0);
+        user.setNumberOfMatchesPlayed(0);
+        user.setNumberOfTournamentsPlayed(0);
+        user.setMatchWinningPercentage(0.0);
+        user.setTournamentWinningPercentage(0.0);
         user.setTournaments(new ArrayList<>());
         return userRepository.save(user).getId();
     }
@@ -58,6 +61,30 @@ public class UserService {
 
     public Optional<User> getByUsername(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    public List<User> getPlayersRankedByWinPercentage() {
+        List<User> users = getAll();
+        for (User user : users) {
+            Double matchWinningPercentage = user.getNumberOfMatchesWon().doubleValue()
+                    / user.getNumberOfMatchesPlayed().doubleValue() * 100.0;
+            user.setMatchWinningPercentage(Double.parseDouble(
+                    new DecimalFormat("#.##")
+                            .format(matchWinningPercentage).replace(',', '.')));
+            Double tournamentWinningPercentage = user.getNumberOfTournamentsWon().doubleValue()
+                    / user.getNumberOfTournamentsPlayed() * 100.0;
+            user.setTournamentWinningPercentage(Double.parseDouble(
+                    new DecimalFormat("#.##")
+                            .format(tournamentWinningPercentage).replace(',', '.')));
+            userRepository.save(user);
+        }
+
+        List<User> sortedUsers = new ArrayList<>(users.stream()
+                .sorted(Comparator.comparingDouble(
+                        user -> user.getMatchWinningPercentage() + user.getTournamentWinningPercentage()))
+                .toList());
+        Collections.reverse(sortedUsers);
+        return sortedUsers;
     }
 
 }

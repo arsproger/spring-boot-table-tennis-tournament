@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Rating</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/tournaments.css">
+  <link rel="stylesheet" href="/static/navbar.css">
+</head>
+<body>
+<div id="navbar">
+  <div id="navbar-brand">Table Tennis</div>
+  <div id="navbar-links">
+    <a href="/tournament">Турниры</a>
+    <a href="/tournament/create">Старт</a>
+    <a href="/user/rating">Рейтинг</a>
+    <a href="/user/profile">Профиль</a>
+    <a href="/logout">Выход</a>
+  </div>
+</div>
+<div class="container">
+  <h1 class="mt-5 mb-3">Рейтинг игроков</h1>
+  <div th:if="${!ratings.isEmpty()}" class="row">
+    <div th:each="rating, iterStat : ${ratings}" class="col-md-12">
+      <div class="tournament-card">
+        <a th:href="@{/user/{id}(id=${rating.id})}">
+          <span class="tournament-title" th:text="${rating.username + ' (' + rating.fullName + ')'}"></span>
+        </a>
+        <p class="tournament-info" th:text="'Процент выигрыша в матчах: ' + ${rating.matchWinningPercentage} + '%'"></p>
+        <p class="tournament-info" th:text="'Процент выигрыша в турнирах: ' + ${rating.tournamentWinningPercentage} + '%'"></p>
+        <p class="tournament-status text-center" th:text="${(rating.matchWinningPercentage.intValue() + rating.tournamentWinningPercentage.intValue()) / 2} + ' score'"></p>
+      </div>
+      <span class="countdown-number gold-text" th:text="${iterStat.count}"></span>
+    </div>
+  </div>
+</div>
+<div th:if="${ratings.isEmpty()}" class="warning-container">
+  <div class="warning-box">
+    <h3 class="warn-text">Рейтинг пуст!</h3>
+  </div>
+</div>
+</body>
+</html>
+

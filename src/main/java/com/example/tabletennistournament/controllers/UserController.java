@@ -33,8 +33,9 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDto> getById(@PathVariable Long id) {
-        return new ResponseEntity<>(userMapper.map(userService.getById(id)), HttpStatus.OK);
+    public String getById(@PathVariable Long id, Model model) {
+        model.addAttribute("user", userMapper.map(userService.getById(id)));
+        return "profile";
     }
 
     @PostMapping
@@ -50,6 +51,12 @@ public class UserController {
     @PatchMapping("/{id}")
     public ResponseEntity<Long> updateById(@PathVariable Long id, @RequestBody UserDto user) {
         return new ResponseEntity<>(userService.updateById(id, userMapper.map(user)), HttpStatus.OK);
+    }
+
+    @GetMapping("/rating")
+    public String getUsersRating(Model model) {
+        model.addAttribute("ratings", userService.getPlayersRankedByWinPercentage());
+        return "rating";
     }
 
 }

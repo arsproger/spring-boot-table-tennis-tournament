@@ -30,6 +30,10 @@ public class User {
     private LocalDateTime registerDate;
     private Integer numberOfMatchesWon;
     private Integer numberOfTournamentsWon;
+    private Integer numberOfMatchesPlayed;
+    private Integer numberOfTournamentsPlayed;
+    private Double matchWinningPercentage;
+    private Double tournamentWinningPercentage;
     @OneToMany(mappedBy = "creator")
     private List<Tournament> createTournaments;
     @ManyToMany(cascade = CascadeType.PERSIST)

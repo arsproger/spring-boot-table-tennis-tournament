@@ -195,15 +195,31 @@ public class MatchService {
         }
 
         for (Match match : matches) {
-            User user = match.getWinner();
-            if (user != null) {
+            User player1 = match.getPlayer1();
+            if (player1 != null) {
+                player1.setNumberOfMatchesPlayed(player1.getNumberOfMatchesPlayed() + 1);
+                if (match.getMatchType().equals(MatchType.FIRST_ROUND)) {
+                    player1.setNumberOfTournamentsPlayed(player1.getNumberOfTournamentsPlayed() + 1);
+                }
+                userRepository.save(player1);
+            }
+            User player2 = match.getPlayer2();
+            if (player2 != null) {
+                player2.setNumberOfMatchesPlayed(player2.getNumberOfMatchesPlayed() + 1);
+                if (match.getMatchType().equals(MatchType.FIRST_ROUND)) {
+                    player2.setNumberOfTournamentsPlayed(player2.getNumberOfTournamentsPlayed() + 1);
+                }
+                userRepository.save(player2);
+            }
+            User winner = match.getWinner();
+            if (winner != null) {
                 if (match.getMatchType().equals(maxMatchType)) {
-                    user.setNumberOfMatchesWon(user.getNumberOfMatchesWon() + 1);
-                    user.setNumberOfTournamentsWon(user.getNumberOfTournamentsWon() + 1);
-                    userRepository.save(user);
+                    winner.setNumberOfMatchesWon(winner.getNumberOfMatchesWon() + 1);
+                    winner.setNumberOfTournamentsWon(winner.getNumberOfTournamentsWon() + 1);
+                    userRepository.save(winner);
                 } else {
-                    user.setNumberOfMatchesWon(user.getNumberOfMatchesWon() + 1);
-                    userRepository.save(user);
+                    winner.setNumberOfMatchesWon(winner.getNumberOfMatchesWon() + 1);
+                    userRepository.save(winner);
                 }
             }
         }

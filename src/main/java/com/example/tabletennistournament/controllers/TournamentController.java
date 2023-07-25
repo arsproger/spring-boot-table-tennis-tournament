@@ -60,7 +60,7 @@ public class TournamentController {
         model.addAttribute("amountMatches", matches.size());
         model.addAttribute("amountUsers", tournamentService.getById(tournamentId).getUserCount());
         model.addAttribute("tournament", tournamentService.getById(tournamentId));
-        model.addAttribute("userId", user.getUser().getId());
+        model.addAttribute("user", user.getUser());
 
         return "tournament";
     }

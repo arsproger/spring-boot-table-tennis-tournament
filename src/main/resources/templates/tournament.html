@@ -36,10 +36,10 @@
                                           aria-label="Flag"></span>
                                 </td>
                                 <td class="tournament-bracket__score"
-                                    th:if="${match.player1 != null and match.player2 != null and userId == tournament.creator.id}">
+                                    th:if="${match.player1 != null and match.player2 != null}">
                                     <label>
-                                        <input class="tournament-bracket__number player-score"
-                                               type="number" min="0" max="99" th:value="${match.player1Score}">
+                                        <input class="tournament-bracket__number player-score" type="number" min="0" max="99"
+                                               th:value="${match.player1Score}" th:readonly="${!(user.id == tournament.creator.id and tournament.tournamentType.toString().equals('ACTIVE') or user.role.toString().equals('ROLE_ADMIN'))}">
                                     </label>
                                 </td>
                             </tr>
@@ -53,10 +53,10 @@
                                           aria-label="Flag"></span>
                                 </td>
                                 <td class="tournament-bracket__score"
-                                    th:if="${match.player1 != null and match.player2 != null and userId == tournament.creator.id}">
+                                    th:if="${match.player1 != null and match.player2 != null}">
                                     <label>
-                                        <input class="tournament-bracket__number player-score"
-                                               type="number" min="0" max="99" th:value="${match.player2Score}">
+                                        <input class="tournament-bracket__number player-score" type="number" min="0" max="99"
+                                               th:value="${match.player2Score}" th:readonly="${!(user.id == tournament.creator.id and tournament.tournamentType.toString().equals('ACTIVE') or user.role.toString().equals('ROLE_ADMIN'))}">
                                     </label>
                                 </td>
                             </tr>
@@ -92,10 +92,10 @@
                                           aria-label="Flag"></span>
                                 </td>
                                 <td class="tournament-bracket__score"
-                                    th:if="${match.player1 != null and match.player2 != null and userId == tournament.creator.id}">
+                                    th:if="${match.player1 != null and match.player2 != null}">
                                     <label>
-                                        <input class="tournament-bracket__number player-score"
-                                               type="number" min="0" max="99" th:value="${match.player1Score}">
+                                        <input class="tournament-bracket__number player-score" type="number" min="0" max="99"
+                                               th:value="${match.player1Score}" th:readonly="${!(user.id == tournament.creator.id and tournament.tournamentType.toString().equals('ACTIVE') or user.role.toString().equals('ROLE_ADMIN'))}">
                                     </label>
                                 </td>
                             </tr>
@@ -107,10 +107,10 @@
                                           aria-label="Flag"></span>
                                 </td>
                                 <td class="tournament-bracket__score"
-                                    th:if="${match.player1 != null and match.player2 != null and userId == tournament.creator.id}">
+                                    th:if="${match.player1 != null and match.player2 != null}">
                                     <label>
-                                        <input class="tournament-bracket__number player-score"
-                                               type="number" min="0" max="99" th:value="${match.player2Score}">
+                                        <input class="tournament-bracket__number player-score" type="number" min="0" max="99"
+                                               th:value="${match.player2Score}" th:readonly="${!(user.id == tournament.creator.id and tournament.tournamentType.toString().equals('ACTIVE') or user.role.toString().equals('ROLE_ADMIN'))}">
                                     </label>
                                 </td>
                             </tr>
@@ -144,10 +144,10 @@
                                           aria-label="Flag"></span>
                                 </td>
                                 <td class="tournament-bracket__score"
-                                    th:if="${match.player1 != null and match.player2 != null and userId == tournament.creator.id}">
+                                    th:if="${match.player1 != null and match.player2 != null}">
                                     <label>
-                                        <input class="tournament-bracket__number player-score"
-                                               type="number" min="0" max="99" th:value="${match.player1Score}">
+                                        <input class="tournament-bracket__number player-score" type="number" min="0" max="99"
+                                               th:value="${match.player1Score}" th:readonly="${!(user.id == tournament.creator.id and tournament.tournamentType.toString().equals('ACTIVE') or user.role.toString().equals('ROLE_ADMIN'))}">
                                     </label>
                                 </td>
                             </tr>
@@ -159,10 +159,10 @@
                                           aria-label="Flag"></span>
                                 </td>
                                 <td class="tournament-bracket__score"
-                                    th:if="${match.player1 != null and match.player2 != null and userId == tournament.creator.id}">
+                                    th:if="${match.player1 != null and match.player2 != null}">
                                     <label>
-                                        <input class="tournament-bracket__number player-score"
-                                               type="number" min="0" max="99" th:value="${match.player2Score}">
+                                        <input class="tournament-bracket__number player-score" type="number" min="0" max="99"
+                                               th:value="${match.player2Score}" th:readonly="${!(user.id == tournament.creator.id and tournament.tournamentType.toString().equals('ACTIVE') or user.role.toString().equals('ROLE_ADMIN'))}">
                                     </label>
                                 </td>
                             </tr>
@@ -196,10 +196,10 @@
                                           aria-label="Flag"></span>
                                 </td>
                                 <td class="tournament-bracket__score"
-                                    th:if="${match.player1 != null and match.player2 != null and userId == tournament.creator.id}">
+                                    th:if="${match.player1 != null and match.player2 != null}">
                                     <label>
-                                        <input class="tournament-bracket__number player-score"
-                                               type="number" min="0" max="99" th:value="${match.player1Score}">
+                                        <input class="tournament-bracket__number player-score" type="number" min="0" max="99"
+                                               th:value="${match.player1Score}" th:readonly="${!(user.id == tournament.creator.id and tournament.tournamentType.toString().equals('ACTIVE') or user.role.toString().equals('ROLE_ADMIN'))}">
                                     </label>
                                 </td>
                             </tr>
@@ -211,10 +211,10 @@
                                           aria-label="Flag"></span>
                                 </td>
                                 <td class="tournament-bracket__score"
-                                    th:if="${match.player1 != null and match.player2 != null and userId == tournament.creator.id}">
+                                    th:if="${match.player1 != null and match.player2 != null}">
                                     <label>
-                                        <input class="tournament-bracket__number player-score"
-                                               type="number" min="0" max="99" th:value="${match.player2Score}">
+                                        <input class="tournament-bracket__number player-score" type="number" min="0" max="99"
+                                               th:value="${match.player2Score}" th:readonly="${!(user.id == tournament.creator.id and tournament.tournamentType.toString().equals('ACTIVE') or user.role.toString().equals('ROLE_ADMIN'))}">
                                     </label>
                                 </td>
                             </tr>
@@ -226,12 +226,12 @@
         </div>
     </div>
 </div>
-<div class="login-card" th:if="${tournament.tournamentType.toString().equals('ACTIVE') and userId == tournament.creator.id}">
+<div class="login-card" th:if="${tournament.tournamentType.toString().equals('ACTIVE') and user.id == tournament.creator.id}">
         <form th:method="PATCH" th:action="@{/tournament/finish/{tournamentId}(tournamentId=${tournament.id})}">
             <button class="login-btn" type="submit">Завершить турнир</button>
         </form>
 </div>
-<div class="login-card" th:if="${tournament.tournamentType.toString().equals('FINISH') or userId != tournament.creator.id}">
+<div class="login-card" th:if="${tournament.tournamentType.toString().equals('FINISH') or user.id != tournament.creator.id}">
     <form th:method="GET" th:action="@{/tournament}">
         <button class="login-btn" type="submit">Выйти назад</button>
     </form>

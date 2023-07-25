@@ -12,7 +12,8 @@
     <div id="navbar-brand">Table Tennis</div>
     <div id="navbar-links">
         <a href="/tournament">Турниры</a>
-        <a href="/tournament/create">Новый турнир</a>
+        <a href="/tournament/create">Старт</a>
+        <a href="/user/rating">Рейтинг</a>
         <a href="/user/profile">Профиль</a>
         <a href="/logout">Выход</a>
     </div>
@@ -25,8 +26,9 @@
                 <a th:href="@{/tournament/{id}(id=${tournament.id})}">
                     <span class="tournament-title" th:text="${'Турнир #' + tournament.id}"></span>
                 </a>
-                <p class="tournament-info" th:text="'Кол-во игроков: ' + ${tournament.userCount}"></p>
-                <p class="tournament-info" th:text="'Дата создания: ' + ${tournament.dateTime}"></p>
+                <p class="tournament-info" th:text="'Количество игроков: ' + ${tournament.userCount}"></p>
+                <p class="tournament-info" th:text="'Турнир создал(а): ' + ${tournament.creator.username + ' (' + tournament.creator.fullName + ')'}"></p>
+                <p class="tournament-info" th:text="'Дата и время создания: ' + ${tournament.dateTime}"></p>
                 <p class="tournament-status text-center" th:text="${tournament.tournamentType.toString()}"
                    th:classappend="${tournament.tournamentType.toString().equals('FINISH')} ? 'red-text' : ''"></p>
             </div>

@@ -12,7 +12,8 @@
   <div id="navbar-brand">Table Tennis</div>
   <div id="navbar-links">
     <a href="/tournament">Турниры</a>
-    <a href="/tournament/create">Новый турнир</a>
+    <a href="/tournament/create">Старт</a>
+    <a href="/user/rating">Рейтинг</a>
     <a href="/user/profile">Профиль</a>
     <a href="/logout">Выход</a>
   </div>
@@ -25,8 +26,10 @@
     <div class="card-body">
       <p><strong>Логин:</strong> <span th:text="${user.username}">null</span></p>
       <p><strong>Имя:</strong> <span th:text="${user.fullName}">null</span></p>
-      <p><strong>Кол-во выигранных матчей:</strong> <span th:text="${user.numberOfMatchesWon}">0</span></p>
-      <p><strong>Кол-во выигранных турниров:</strong> <span th:text="${user.numberOfTournamentsWon}">0</span></p>
+      <p><strong>Сыграно матчей:</strong> <span th:text="${user.numberOfMatchesPlayed}">0</span></p>
+      <p><strong>Выиграно матчей:</strong> <span th:text="${user.numberOfMatchesWon}">0</span></p>
+      <p><strong>Сыграно турниров:</strong> <span th:text="${user.numberOfTournamentsPlayed}">0</span></p>
+      <p><strong>Выиграно турниров:</strong> <span th:text="${user.numberOfTournamentsWon}">0</span></p>
     </div>
   </div>
 </div>
