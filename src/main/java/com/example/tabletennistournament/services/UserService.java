@@ -66,13 +66,17 @@ public class UserService {
     public List<User> getPlayersRankedByWinPercentage() {
         List<User> users = getAll();
         for (User user : users) {
-            Double matchWinningPercentage = user.getNumberOfMatchesWon().doubleValue()
-                    / user.getNumberOfMatchesPlayed().doubleValue() * 100.0;
+            Double matchWinningPercentage = user.getNumberOfMatchesPlayed() != 0
+                    ? user.getNumberOfMatchesWon().doubleValue()
+                    / user.getNumberOfMatchesPlayed().doubleValue() * 100.0
+                    : 0.0;
             user.setMatchWinningPercentage(Double.parseDouble(
                     new DecimalFormat("#.##")
                             .format(matchWinningPercentage).replace(',', '.')));
-            Double tournamentWinningPercentage = user.getNumberOfTournamentsWon().doubleValue()
-                    / user.getNumberOfTournamentsPlayed() * 100.0;
+            Double tournamentWinningPercentage = user.getNumberOfTournamentsPlayed() != 0
+                    ? user.getNumberOfTournamentsWon().doubleValue()
+                    / user.getNumberOfTournamentsPlayed() * 100.0
+                    : 0.0;
             user.setTournamentWinningPercentage(Double.parseDouble(
                     new DecimalFormat("#.##")
                             .format(tournamentWinningPercentage).replace(',', '.')));
