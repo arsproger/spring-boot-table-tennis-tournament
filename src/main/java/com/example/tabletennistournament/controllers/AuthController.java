@@ -36,7 +36,7 @@ public class AuthController {
         userValidator.validate(userMapper.map(userDTO), bindingResult);
 
         if (bindingResult.hasErrors()) {
-            return "/register";
+            return "register";
         }
         userService.save(userMapper.map(userDTO));
         return "redirect:/auth/login";
